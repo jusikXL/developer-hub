@@ -48,16 +48,12 @@ export const global = {
           title: 'Technical Reference',
           links: [
             {
-              title: 'Core Settings',
-              href: '/settings',
-            },
-            {
-              title: 'Token Precision',
-              href: '/token-precision',
-            },
-            {
               title: 'Protocol Fee',
               href: '/fee',
+            },
+            {
+              title: 'Supported Chains',
+              href: '/deployed-contracts',
             },
             {
               title: 'Transaction Pricing',
@@ -68,13 +64,18 @@ export const global = {
               href: '/tx-time',
             },
             {
+              title: 'Core Settings',
+              href: '/settings',
+            },
+            {
+              title: 'Token Precision',
+              href: '/token-precision',
+            },
+            {
               title: 'Limitations',
               href: '/limitations',
             },
-            {
-              title: 'Supported Chains',
-              href: '/deployed-contracts',
-            },
+            
           ],
         },
         {
