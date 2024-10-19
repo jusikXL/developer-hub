@@ -9,7 +9,7 @@ The offer's lifecycle begins with its creation. On this page, we'll go over the 
 ## When to Create Offer
 Before creating a new offer, we recommend checking if there is already an **existing** offer listed by another advertiser that meets your requirements. Accepting it will be **faster** than waiting for someone to accept your offer. See [how to accept offers](/accept-offer).
 
-## The creation process
+## Creation Process
 
 ### **1. Create Offer Parameters.** 
 First, decide what to sell, what to receive in return, set the price, and specify the address where the received tokens will be sent.
@@ -119,7 +119,7 @@ Every transaction using Bakstag has **3** main cost elements:
 Note that `createOffer` will also transfer the **source amount** to the Escrow. It remains your funds, and you can **cancel the offer** whenever you wish. This allows users to trade assets across chains in a **non-custodial** manner. See [how to cancel offers](/cancel-offer).
 {% /callout %}
 
-## Gas abstraction
+## Gas Abstraction
 The **destination gas costs** are included in the  [LayerZero fee](/create-offer#transaction-pricing). Advertisers pay this fee in the **source native currency**, which means there’s no need to hold any destination native currency. The same applies to buyers.
 
 ## Time
