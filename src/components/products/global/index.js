@@ -87,7 +87,7 @@ export const global = {
         {
           title: 'Community',
           links: [
-            { title: 'Support', href: '/support' },
+            { title: 'Support', href: '/community' },
           ],
         },
       ],

@@ -39,6 +39,11 @@ const NavList = () => {
           Supported Chains
         </div>
       </Link>
+      <Link href="/community">
+        <div className="-mx-4 -my-2 rounded-lg px-4 py-2 text-black dark:text-white">
+          Community
+        </div>
+      </Link>
     </div>
   )
 }
