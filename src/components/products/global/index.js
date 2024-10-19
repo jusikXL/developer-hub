@@ -21,28 +21,66 @@ export const global = {
           links: [
             { title: 'Introduction', href: '/' },
             { title: 'Getting started', href: '/getting-started' },
-            {
-              title: 'Offer',
-              href: '/offer',
-            },
-          ],
-        },
-        {
-          title: 'Settings',
-          links: [
-            {
-              title: 'Token Precision',
-              href: '/token-precision',
-            },
           ],
         },
         {
           title: 'Features',
           links: [
             {
+              title: 'Offer',
+              href: '/offer',
+            },
+            {
               title: 'Create Offer',
               href: '/create-offer',
             },
+            {
+              title: 'Accept Offer',
+              href: '/accept-offer',
+            },
+            {
+              title: 'Cancel Offer',
+              href: '/accept-offer',
+            },
+          ],
+        },
+        {
+          title: 'Technical Reference',
+          links: [
+            {
+              title: 'Core Settings',
+              href: '/settings',
+            },
+            {
+              title: 'Token Precision',
+              href: '/token-precision',
+            },
+            {
+              title: 'Protocol Fee',
+              href: '/fee',
+            },
+            {
+              title: 'Transaction Pricing',
+              href: '/tx-pricing',
+            },
+            {
+              title: 'Transaction Time',
+              href: '/tx-time',
+            },
+            {
+              title: 'Limitations',
+              href: '/limitations',
+            },
+            {
+              title: 'Supported Chains',
+              href: '/deployed-contracts',
+            },
+          ],
+        },
+        {
+          title: 'Next steps',
+          links: [
+            { title: 'Next steps', href: '/next-steps' },
           ],
         },
         {

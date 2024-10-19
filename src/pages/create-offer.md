@@ -109,18 +109,8 @@ Upon acceptance, buyers transfer **destination tokens** directly to the configur
 
 We will discuss how to accept offers in detail [in the following page](/accept-offer).
 
-## Transaction Pricing
-Every transaction using Bakstag has **3** main cost elements:
-1. the **source transaction gas**
-2. the [LayerZero fee](https://docs.layerzero.network/v2/developers/evm/technical-reference/tx-pricing) paid to the Security Stack, Executor, and for covering destination transaction gas.
-3. the [Bakstag fee](/) paid in offer destination token.
+## Transaction Pricing and Time
+Learn the **cost components** of the `createOffer` transaction [in the technical reference](/tx-pricing). Discover **how long** transactions typically take [here](/tx-time).
 
-{% callout title="Source Amount" type="note" %}
-Note that `createOffer` will also transfer the **source amount** to the Escrow. It remains your funds, and you can **cancel the offer** whenever you wish. This allows users to trade assets across chains in a **non-custodial** manner. See [how to cancel offers](/cancel-offer).
-{% /callout %}
-
-## Gas Abstraction
-The **destination gas costs** are included in the  [LayerZero fee](/create-offer#transaction-pricing). Advertisers pay this fee in the **source native currency**, which means there’s no need to hold any destination native currency. The same applies to buyers.
-
-## Time
-When you create an offer, you will first wait for the transaction to succeed on the source chain. After that, you'll need to wait for LayerZero to confirm and deliver it to the destination chain. However, this process is still **much faster** than **bridging**. We've observed transactions complete in **under 2 minutes**, though actual times may vary based on blockchains load, LayerZero load, and other factors.
+## Cancel Offer
+You can [cancel the offer](/cancel-offer) whenever you wish.
