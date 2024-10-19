@@ -15,4 +15,4 @@ Note that [createOffer](/create-offer) will also transfer the **source amount** 
 {% /callout %}
 
 ## Destination Gas Abstraction
-The **destination gas costs** are included in the [LayerZero fee](https://docs.layerzero.network/v2/developers/evm/technical-reference/tx-pricing). Advertisers pay this fee in the **source native currency**, which means there’s no need to hold any destination native currency. The same applies to buyers.
+The **destination gas costs** are included in the [LayerZero fee](https://docs.layerzero.network/v2/developers/evm/technical-reference/tx-pricing). Users pay this fee in the **source native** or **ZRO token**, which means there’s no need to hold any destination native currency.
