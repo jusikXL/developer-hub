@@ -56,7 +56,7 @@ export function Header({ page }) {
                     Bakstag
                   </div>
                   <div className="mt-1 text-sm leading-none text-slate-500 dark:text-slate-400">
-                    OTC Market
+                    OTC Protocol
                   </div>
                 </div>
               </div>

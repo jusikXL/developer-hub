@@ -4,16 +4,12 @@ metaTitle: Getting Started | Bakstag
 description: Get started with Bakstag.
 ---
 
-TODO
-
-<!-- Select the language / library you want to use below to get started with Candy Machines.
+Welcome to Omnichain OTC Market. {% .lead %}
 
 {% quick-links %}
 
-{% quick-link title="JavaScript" icon="JavaScript" href="/candy-machine/getting-started/js" description="Get started with our JavaScript library based on the Umi framework." /%}
+{% quick-link title="Explore" icon="SolidBolt" href="https://bakstag-landing.vercel.app/" description="Discover more on our landing page." /%}
 
-{% quick-link title="Rust" icon="Rust" href="/candy-machine/getting-started/rust" description="Get started using our Rust crate." /%}
+{% quick-link title="Exchange" icon="SolidArrowTrendingUp" href="https://bakstag-frontend.vercel.app/" description="Access our application to start trading." /%}
 
-{% quick-link title="Sugar" icon="SolidCommandLine" href="/candy-machine/sugar/getting-started" description="Get started using the command-line tool Sugar." /%}
-
-{% /quick-links %} -->
+{% /quick-links %}

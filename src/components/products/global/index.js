@@ -5,7 +5,7 @@ import { Logo } from './Logo'
 export const global = {
   name: 'Bakstag',
   headline: 'P2P DEX',
-  description: 'Omnichain OTC Market.',
+  description: 'Omnichain Over-The-Counter Protocol.',
   path: '',
   isFallbackProduct: true,
   icon: <Logo />,

@@ -4,7 +4,7 @@ metaTitle: Offer | Bakstag
 description: Learn what an offer is composed of.
 ---
 
-An offer is the core component of the OTC Market. Each offer is composed of a unique identifier (ID) and a set of parameters. {% .lead %}
+An offer is the core component of the OTC Protocol. Each offer is composed of a unique identifier (ID) and a set of parameters. {% .lead %}
 
 {% callout title="Sell vs. Buy Offers" type="note" %}
 Every offer can be interpreted either as a sell or a buy offer. For example, selling 100 SOL for 1 ETH is equivalent to buying 1 ETH for 100 SOL. However, when it comes to technical details, we strictly adhere to sell offers.
@@ -200,7 +200,7 @@ We will discuss each of these actions in detail [in the features section](/bubbl
 
 ## Types
 
-Bakstag is an Omnichain OTC Market, supporting both crosschain and monochain offers.
+Bakstag supports both crosschain and monochain offers.
 
 ### Crosschain
 

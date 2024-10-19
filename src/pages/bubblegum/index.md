@@ -68,11 +68,11 @@ Buyers accept the offer by interacting with the smart contract on the offer's de
   
   - **Advertiser**:
     - Holds ETH on the Base chain.
-    - Interacts with the OTC Market smart contract on the Base chain to create the offer.
+    - Interacts with the OTC Market on the Base chain to create the offer.
   
   - **Buyer**:
     - Holds SOL on the Solana chain.
-    - Interacts with the OTC Market smart contract on the Solana chain to accept the offer.
+    - Interacts with the OTC Market on the Solana chain to accept the offer.
 
 Once the entire amount in the offer has been purchased by buyers, the advertiser can **cancel** the offer, allowing them to create a new offer with the same parameters. This will also free some storage on the blockchain and return the rent to the advertiser (on Solana).
 
