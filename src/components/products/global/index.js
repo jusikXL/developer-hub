@@ -20,7 +20,7 @@ export const global = {
           title: 'Overview',
           links: [
             { title: 'Introduction', href: '/' },
-            { title: 'Getting started', href: '/getting-started' },
+            { title: 'Getting Started', href: '/getting-started' },
           ],
         },
         {
@@ -87,7 +87,7 @@ export const global = {
         {
           title: 'Community',
           links: [
-            { title: 'Contact Us', href: '/contact' },
+            { title: 'Support', href: '/support' },
           ],
         },
       ],
