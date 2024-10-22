@@ -36,8 +36,6 @@ First, decide what to sell, what to receive in return, set the price, and specif
 
 **Source Seller Address** and **Source Endpoint ID** are automatically determined by the OTC Market.
 
-- **Pay in LayerZero Token:** Decide whether to cover LayerZero fee in native or ZRO token.
-
 
 ### **2. Quote.** 
 Next, obtain a quote that provides:
@@ -65,7 +63,9 @@ function quoteCreateOffer(
 {% /dialect %}
 {% /dialect-switcher %}
 
-It will revert if we try to recreate the same offer or to create an offer with an unsupported destination chain.
+- **Pay in LayerZero Token:** Decide whether to cover LayerZero fee in native or ZRO token.
+
+Quote will revert if we try to recreate the same offer or to create an offer with an unsupported destination chain.
 
 ### **3. Approve.**
 If the **source token** is not native, e.g., USDC (Base), you will also be asked to **approve** the OTC Market to transfer the source tokens [to the Escrow](/create-offer#escrow).
@@ -92,7 +92,7 @@ Internally, `createOffer` will:
 - **Store offer:** Store offer onchain.
 - **Emit event:** Log `OfferCreated` event notifying offchain workers.
 - **Lock source amount:** Securely lock the source amount [in the Escrow](/create-offer#escrow).
-- **Send omnichain message:** Build and send `OfferCreated` message to the destination peer OTC Market (for crosschain offers only).
+- **Send crosschain message:** Build and send `OfferCreated` message to the destination peer OTC Market (for crosschain offers only).
 
 {% figure src="/assets/bakstag/create-offer.svg" alt="Offer creation process" caption="Offer creation" /%}
 
