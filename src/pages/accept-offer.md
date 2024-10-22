@@ -4,7 +4,7 @@ metaTitle: Accept Offer | Bakstag
 description: Learn how Offer is accepted.
 ---
 
-Afte the offer is created, it can be accepted by the buyer. On this page, we'll go over the process of accepting the offer. {% .lead %}
+After the offer is created, it can be accepted by the buyer. On this page, we'll go over the process of accepting the offer. {% .lead %}
 
 {% callout title="Cross-Chain Offer Flow: Source and Destination Chains" type="note" %} The offer is initiated on what is referred to as the "source chain" and, in the case of a cross-chain offer, is accepted on the "destination chain." In this process, the buyer purchases the source chain's token, making payment with the token of the destination chain. {% /callout %}
 
@@ -92,7 +92,7 @@ function acceptOffer(
 
 Calling `acceptOffer` will return **LayerZero Messaging Receipt** and **Create Offer Receipt**.
 
-#### 1. Accepting crosschain offer
+#### 1. Accepting cross-chain offer
 
 While accepting the **cross-chain** offer, OTC market will:
 
@@ -100,9 +100,9 @@ While accepting the **cross-chain** offer, OTC market will:
 - **Update Offer source amount:** Update the **source token amount** avaliable to accept for next buyers.
 - **Emit event:** Log `OfferAccepted` event notifying offchain workers.
 - **Transfer destination token:** Transfer **protocol fee** to **treasury** and remaining amount to **destination seller address**
-- **Send crosschain message:** Build and send `OfferAccepted` message to the **source chain** OTC Market.
+- **Send cross-chain message:** Build and send `OfferAccepted` message to the **source chain** OTC Market.
 
-After the **crosschain message** is delivered, based on **source chain**, the **source chain** OTC market will:
+After the **cross-chain message** is delivered, based on **source chain**, the **source chain** OTC market will:
 
 - **Update Offer source amount:** Update the **source token amount** available to accept.
 - **Emit event:** Log `OfferAccepted` event notifying offchain workers.
