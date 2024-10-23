@@ -152,3 +152,49 @@ When the `Offer Canceled` message delivered to **source chain** OTC market, it w
 - **Emit Event:** Log `OfferCanceled` event notifying offchain workers.
 
 {% figure src="/assets/bakstag/cancel-offer.svg" alt="Offer cancellation process" caption="Offer acceptance" /%}
+
+
+
+### **4. Problematic**
+
+
+#### **Simultaneously accepting and cancelling the offer**
+As previously mentioned, the Bakstag Protocol currently maintains a **duplicate** storage of offers. Therefore, to cancel an offer, it must be removed from both the source and destination OTC markets. This requires the offer to be canceled on both the source and destination chain OTC markets.
+
+The simplest way to cacnel the offer is to:
+1. **Cancel on source chain**
+2. **Cancel on destination chain**
+   
+But this implementation has a problem:
+
+Let’s consider a scenario where an offer has its source chain on `A` and its destination chain on `B`. The offer is being canceled on chain `A` while simultaneously being accepted on chain `B`. Here’s what would happen:
+
+1. - **`A` OTC:** Offer is canceled
+   - **`B` OTC:** Offer is accepted 
+2. - **`A` OTC:** Offer is removed from mapping  and the assets are returned to the **seller**
+   - **`B` OTC:** Offer is updated, **destination token** transferred from the **buyer** account to **destination seller address** and **treasury**
+3. - **`A` OTC:** Cross-chain `Offer Canceled` message send to **destination chain** OTC.
+   - **`B` OTC:** Cross-chain `Offer Accepted` message send to **source chain** OTC.
+4. - **`A` OTC:** `Offer Accepted` message received, but **offer** no longer exist on this OTC marked, so **source token** can not be transferred to **source buyer address**
+   - **`B` OTC:** Offer Canceled message received, the offer removed from the OTC.
+
+
+The example above illustrates why relying on a simple cross-chain transaction is insufficient for canceling an offer.
+
+Now, let’s consider the same scenario but using the Cancel Offer implementation currently employed in the Bakstag Protocol:
+
+1. - **`A` OTC:** Offer is canceled
+   - **`B` OTC:** Offer is accepted 
+2. - **`A` OTC:** Cross-chain `Cancel Offer Order` message is sent to **destination chain** OTC market.
+   - **`B` OTC:** Offer is updated, **destination token** transferred from the **buyer** account to **destination seller address** and **treasury**. Cross-chain `Offer Accepted` message send to **source chain** OTC.
+3. - **`A` OTC:** `Offer Accepted` message received, **source token** transfered to **source buyer address**
+   - **`B` OTC:** `Cancel Offer Order` message received, offer removed from the mapping, `Offer Canceled` message sent back to **source chain** OTC market.
+4. `Offer Canceled` message received on `A` OTC market, the offer removed from the mapping, **source token** transferred to **source seller address**
+
+This highlights why the Cancel Offer process must implement an ABA-type cross-chain transaction.
+
+#### **Not enough gas for sending `Offer Canceled` message**
+
+The ABA-type transaction introduces another potential issue. The **seller** specifies the amount of gas available for executing the transaction on the **destination chain** by providing the **Extra Send Options** parameter when invoking `cancelOffer`. What happens if the **seller** specifies an insufficient amount of gas on the **destination chain**, not enough to process the `Cancel Offer Order` message on the **destination** OTC market?
+
+The answer is straightforward — nothing critically wrong would occur. If there isn't enough gas to process the `Cancel Offer Order` and send the `Offer Canceled message` back to the **source chain** OTC market, the transaction would simply revert. As a result, the **offer** would not be removed from either the **source chain** or the **destination chain** OTC markets.
