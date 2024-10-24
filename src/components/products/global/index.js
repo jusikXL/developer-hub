@@ -40,7 +40,7 @@ export const global = {
             },
             {
               title: 'Cancel Offer',
-              href: '/accept-offer',
+              href: '/cancel-offer',
             },
           ],
         },
@@ -75,20 +75,15 @@ export const global = {
               title: 'Limitations',
               href: '/limitations',
             },
-            
           ],
         },
         {
           title: 'Next steps',
-          links: [
-            { title: 'Next steps', href: '/next-steps' },
-          ],
+          links: [{ title: 'Next steps', href: '/next-steps' }],
         },
         {
           title: 'Community',
-          links: [
-            { title: 'Support', href: '/community' },
-          ],
+          links: [{ title: 'Support', href: '/community' }],
         },
       ],
     },
