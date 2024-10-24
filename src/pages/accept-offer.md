@@ -6,7 +6,9 @@ description: Learn how Offer is accepted.
 
 After the offer is created, it can be accepted by the buyer. On this page, we'll go over the process of accepting the offer. {% .lead %}
 
-{% callout title="Cross-Chain Offer Flow: Source and Destination Chains" type="note" %} The offer is initiated on what is referred to as the **source chain** and, in the case of a cross-chain offer, is accepted on the **destination chain**. In this process, the buyer purchases the **source chain** token, making payment with the token of the **destination chain**. {% /callout %}
+{% callout title="Cross-Chain Offer Flow: Source and Destination Chains" type="note" %} 
+The offer is initiated on what is referred to as the **source chain** and, in the case of a cross-chain offer, is accepted on the **destination chain**. In this process, the buyer purchases the **source chain** token, making payment with the token of the **destination chain**. 
+{% /callout %}
 
 ## Accepting Process
 
@@ -14,7 +16,7 @@ After the offer is created, it can be accepted by the buyer. On this page, we'll
 
 First, the buyer must specify which offer to accept by providing the offer ID.
 
-Additionally, the ***bu*yer** must specify the **source token** amount to be purchased, as the Bakstag Protocol supports fractional offer acceptance. The amount should be expressed in [shared decimals](/token-precision#shared-decimal-system).
+Additionally, the **buyer** must specify the **source token** amount to be purchased, as the Bakstag Protocol supports fractional offer acceptance. The amount should be expressed in [shared decimals](/token-precision#shared-decimal-system).
 
 Finally, the buyer needs to provide the address of his account in **source chain**. The **source tokens** will be transferred into this account.
 
@@ -27,7 +29,7 @@ Namely, buyer must provide:
 {% diagram %}
 {% node %}
 {% node label="Accept Offer Parameters" /%}
-{% node label="Offer ID" theme="white" /%}
+{% node label="Offer ID" /%}
 {% node label="Source Amount" theme="purple" /%}
 {% node label="Source Buyer Address" theme="red" /%}
 {% /node %}
