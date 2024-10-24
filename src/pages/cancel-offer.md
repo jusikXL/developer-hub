@@ -10,10 +10,10 @@ The lifecycle of an offer finishes with its cancellation. In this section, we wi
 
 In a monochain scenario, offer cancellation is a straightforward procedure. Essentially, only two actions are required:
 
-- **Unlocking source token:** The source token, that seller have freezed while creating the offer, is needed to be returned back to the seller.
-- **Removing the offer:** After assets were returned, the offer needs to be removed from the **offers** mapping.
+- **Unlocking source token:** The **source tokens**, that **seller** have freezed while creating the offer, must be refunded.
+- **Delete the offer:** The offer must be deleted from the **offers** mapping.
 
-{% callout title="Cancellation authority" type="note" %} Only the seller who created the offer has the authority to cancel it. {% /callout %}
+{% callout title="Cancellation authority" type="note" %} Only the **seller** who created the offer has the authority to cancel it. {% /callout %}
 
 In order to cancel the offer, **seller** has to invoke method `cancelOffer`.
 
@@ -31,49 +31,51 @@ function cancelOffer(
 {% /dialect %}
 {% /dialect-switcher %}
 
-About the parametrs of this method:
+About the parameters of this method:
 
-- **offerId:** The ID of the offer to be canceled. The **signer** address must be the **source seller address** of this offer.
-- **fee:** The **Layer Zero** fee, that would be zero for in monochain
-- **extraSendOptions:** Options required for **Layer Zero** ABA cross-chain transaction. In monochain case would be ampty.
+- **offerId:** The ID of the offer to be canceled
+- **fee:** The **Layer Zero** fee, that would be zero in the monochain offer case
+- **extraSendOptions:** Options required for **Layer Zero** cross-chain transaction. In monochain case would be empty.
 
-Upon calling the `cancelOffer` method, the following actions will occur:
+Upon calling the `cancelOffer` method, the OTC marker will:
+- **Validate data:** The OTC market will verify whether the offer exists, if the cancellation is being initiated from the **source chain**, and if the **signer** has the authority to cancel the offer.
+- **Unlock the assets:** The **source token** from [Escrow](/create-offer#escrow) well be transferred to **seller** account
+- **Delete the offer:** Offer will be deleted from the **offers** mapping.
 
-- **Validation:** The OTC market will verify whether the offer exists, if the cancellation is being initiated from the **sorce chain**, and if the **signer** has the authority to cancel the offer.
-- **Unlocking the assets:** The locked assets from [Escrow](/create-offer#escrow) would be transferred to **seller** account
-- **Deleting the offer:** OTC market will delete the offer.
+## Cross-chain Cancelling Process
 
-## Crosschain Cancelling Process
-
-{% callout title="Cross-Chain Offer Flow: Cancel offer" type="note" %} In the current version of the Bakstag Protocol, offers are canceled from their source chain. To ensure that the offer has been successfully canceled on the destination chain, the cancellation process is designed of type of **ABA** cross-chain transaction. {% /callout %}
+{% callout title="Cross-Chain Offer Flow: Cancel offer" type="note" %} In the current version of the Bakstag Protocol, the cancellation process starts in the **source chain** OTC market. To ensure that the offer has been successfully canceled on the **destination chain**, the cancellation process is designed in type of **ABA** cross-chain transaction. [Here](/cancel-offer#4-problematic) is the reason why **ABA** type transaction is required for the cancellation. {% /callout %}
 
 Cross-chain offer cancellation is slitted into 2 cross-chain messages:
 
-- **Cancel Offer Order:** Message from the offer **source chain** to **destination chain**, which tells the **destination** OTC to delete the offer.
-- **Offer Canceled:** Message from the offer **destination chain** to **source chain** saying that the offer is already removed on **destination** OTC and now can be removed on **source** one.
+- **Cancel Offer Order:** Message from the offer **source chain** to **destination chain**, ordering **destination** OTC to delete the offer.
+- **Offer Canceled:** Message from the  **destination chain** OTC to **source chain** informing that the offer is successfully deleted in **destination chain** OTC and now can be deleted on **source chain** one.
 
 Since the cancellation of a cross-chain offer involves two transactions, the `quote` method must be called twice — once on the **destination chain** and once on the **source chain**.
 
 ### **1. Quote on the destination chain**
 
-Firstly, to send the **Offer Canceled** message form **destination** OTC to **source** one, the `quoteCancelOffer` should be invoked on the **destination** OTC.
+Firstly, `quoteCancelOffer` should be invoked on the **destination chain** OTC, in order to quote sending the **Offer Canceled** message.
 
 {% dialect-switcher title="Quote cancel offer interface" %}
 {% dialect title="Solidity" id="solidity" %}
 
 ```solidity
-function quoteCancelOffer(bytes32 _offerId)       external returns (MessagingFee memory fee);
+function quoteCancelOffer(bytes32 _offerId) external returns (MessagingFee memory fee);
 ```
 
 {% /dialect %}
 {% /dialect-switcher %}
 
-The quote is a view (read) function, so calling it incurs no cost. The only parameter of it requires is **offerId**, which is an ID of the offer to be canceled.
-The `quoteCancelOffer` returns the **Layer Zero fee**, needed to send the **Offer Canceled** message to **source** OTC.
+The quote is a view (read) function, so calling it incurs no cost.
+
+The only required parameter is **offerId** — ID of the offer to be canceled.
+
+The `quoteCancelOffer` returns the `returnFee` — **Layer Zero fee**, required to send the **Offer Canceled** message. `returnFee` will be useful in the following step.
 
 ### **2. Building Extra Send Options**
 
-**Extra send options** are required in order to invoke the `quoteCancelOfferOrder` method on the **source** OTC market.
+**Extra send options** are required in order to invoke the `quoteCancelOfferOrder` method on the **source chain** OTC market.
 
 {% dialect-switcher title="Building extra send options" %}
 {% dialect title="Solidity" id="solidity" %}
@@ -99,11 +101,11 @@ const extraOptions = Options.newOptions()
 {% /dialect %}
 {% /dialect-switcher %}
 
-The **returnFee** is the fee that was ruturned by [invoking `quoteCancelOffer`](/cancel-offer#1-quote-on-the-destination-chain).
+To build `extraSendOptions` the `returnFee` form the [previous step](/cancel-offer#1-quote-on-the-destination-chain) is required.
 
 ### **2. Quote on the source chain**
 
-After computing **extra send options**, the `quoteCancelOfferOrder` can be invoked.
+After computing the `extraSendOptions`, the `quoteCancelOfferOrder` can be invoked.
 
 {% dialect-switcher title="Quote cancel offer order interface" %}
 {% dialect title="Solidity" id="solidity" %}
@@ -121,80 +123,81 @@ function quoteCancelOfferOrder(
 {% /dialect-switcher %}
 
 The required parameters are:
-
-- **srcSellerAddress:** address of the future **signer**, it should be the same as **source seller address**, because only **seller** can cancel the offer.
+- **srcSellerAddress:** address of the **signer** of future `cancelOffer` transaction. 
 - **offerId:** ID of the offer to be canceled
-- **extraSendOptions:** The extra send options [builded before](/cancel-offer#2-building-extra-send-options).
+- **extraSendOptions:** The built [earlier](/cancel-offer#2-building-extra-send-options) `extraSendOptions`.
 - **payInLzToken:** Decide whether to cover LayerZero fee in native or ZRO token.
 
-The `quoteCancelOfferOrder` is a view (read) function, so calling it incurs no cost. It returns the final `fee` required for the main `cancelOffer` method.
+The `quoteCancelOfferOrder` is a view (read) function, so calling it incurs no cost. 
+
+`quoteCancelOfferOrder` returns the `fee` required for the main `cancelOffer` method.
 
 ### **3. Cancel**
 
-Finally, we are ready to cancel the offer. On **source chain** OTC market the method `cancelOffer` should be invoked. The interface of this method can be seen [here](/cancel-offer#monochain-cancelling-process).
+On **source chain** OTC market the method `cancelOffer` should be invoked. The interface of this method can be seen [here](/cancel-offer#monochain-cancelling-process).
 
-Since the offer is cross-chain, the **fee** parameter will not be zero. The fee from the [source chain quote](/cancel-offer#2-quote-on-the-source-chain) is required in this context. Additionally, the **extraSendOptions** parameter must include the value of the constructed [extra send options](/cancel-offer#2-building-extra-send-options).
+The `fee` from the [source chain quote](/cancel-offer#2-quote-on-the-source-chain) is required in this context, as well as `extraSendOptions` parameter built [earlier](/cancel-offer#2-building-extra-send-options).
 
 While canceling the cross-chain offer, the OTC market will:
 
-- **Validate:** The OTC market will verify whether the offer exists, if the cancellation is being initiated from the **source chain**, and if the **signer** has the authority to cancel the offer.
-- **Send Cancel Offer Order message** Send the message to **destination** OTC market with order to cancel the offer.
+- **Validate data:** The OTC market will verify whether the offer exists, if the cancellation is being initiated from the **source chain**, and if the **signer** has the authority to cancel the offer.
+- **Send Cancel Offer Order message** Send the `CancelOfferOrder` cross-chain message to the **destination chain** OTC market.
 
-Once the `Cancel Offer Order` message was delivered to **destination** OTC market, it will:
+Once the `Cancel Offer Order` message was delivered to the **destination chain** OTC market, it will:
 
-- **Cancel the offer:** Remove offer from the **offers** mapping.
+- **Cancel the offer:** Delete offer from the **offers** mapping.
 - **Emit Event:** Log `OfferCanceled` event notifying offchain workers.
-- **Send Offer Canceled message:** Send the message back to **source chain** OTC, saying that the offer is canceled on **destination chain** OTC market.
+- **Send Offer Canceled message:** Send the `OfferCanceled` cross-chain message to the **source chain** OTC market.
 
-When the `Offer Canceled` message delivered to **source chain** OTC market, it will:
+When the `Offer Canceled` message, the OTC market will:
 
-- **Cancel the offer:** Remove offer from the **offers** mapping.
+- **Cancel the offer:** Delete offer from the **offers** mapping.
 - **Emit Event:** Log `OfferCanceled` event notifying offchain workers.
 
 {% figure src="/assets/bakstag/cancel-offer.svg" alt="Offer cancellation process" caption="Offer acceptance" /%}
 
-
-
 ### **4. Problematic**
+#### **Offer is Accepted and Canaled simultaneously**
+As previously mentioned, the Bakstag Protocol currently maintains a **duplicate** storage of offers. Therefore, to cancel an offer, it must be removed in both the **source** and **destination chains** OTC markets. Likewise the `cancelOffer` request should come from **source chain** OTC market
 
-
-#### **Simultaneously accepting and cancelling the offer**
-As previously mentioned, the Bakstag Protocol currently maintains a **duplicate** storage of offers. Therefore, to cancel an offer, it must be removed from both the source and destination OTC markets. This requires the offer to be canceled on both the source and destination chain OTC markets.
-
-The simplest way to cacnel the offer is to:
+The simplest way to cancel the offer is:
 1. **Cancel on source chain**
 2. **Cancel on destination chain**
    
 But this implementation has a problem:
 
-Let’s consider a scenario where an offer has its source chain on `A` and its destination chain on `B`. The offer is being canceled on chain `A` while simultaneously being accepted on chain `B`. Here’s what would happen:
+Let’s consider a scenario where an offer **source chain** is `A` and **destination chain** is `B`. The offer is being canceled on chain `A` while simultaneously being accepted on chain `B`. Here’s what would happen:
 
-1. - **`A` OTC:** Offer is canceled
-   - **`B` OTC:** Offer is accepted 
-2. - **`A` OTC:** Offer is removed from mapping  and the assets are returned to the **seller**
-   - **`B` OTC:** Offer is updated, **destination token** transferred from the **buyer** account to **destination seller address** and **treasury**
-3. - **`A` OTC:** Cross-chain `Offer Canceled` message send to **destination chain** OTC.
-   - **`B` OTC:** Cross-chain `Offer Accepted` message send to **source chain** OTC.
-4. - **`A` OTC:** `Offer Accepted` message received, but **offer** no longer exist on this OTC marked, so **source token** can not be transferred to **source buyer address**
-   - **`B` OTC:** Offer Canceled message received, the offer removed from the OTC.
+1. - **`A` OTC market:** Offer is canceled
+   - **`B` OTC market:** Offer is accepted 
+---
+2. - **`A` OTC market:** Offer is deleted from the mapping and the assets are returned to the **seller**
+   - **`B` OTC market:** Offer is updated, **destination token** transferred from the **buyer** account to **destination seller address** and **treasury**
+---
+3. - **`A` OTC market:** `OfferCanceled` cross-chain message send to **destination chain** OTC market.
+   - **`B` OTC market:** `OfferAccepted` cross-chain message send to **source chain** OTC market.
+---
+4. - **`A` OTC market:** `OfferAccepted` message received, but **offer** no longer exist on this OTC marked, so **source token** can not be transferred to **source buyer address**
+   - **`B` OTC market:** Offer Canceled message received, the offer deleted from mapping.
 
 
-The example above illustrates why relying on a simple cross-chain transaction is insufficient for canceling an offer.
+The example above illustrates a simple cross-chain transaction is insufficient for canceling an offer.
 
 Now, let’s consider the same scenario but using the Cancel Offer implementation currently employed in the Bakstag Protocol:
 
-1. - **`A` OTC:** Offer is canceled
-   - **`B` OTC:** Offer is accepted 
-2. - **`A` OTC:** Cross-chain `Cancel Offer Order` message is sent to **destination chain** OTC market.
-   - **`B` OTC:** Offer is updated, **destination token** transferred from the **buyer** account to **destination seller address** and **treasury**. Cross-chain `Offer Accepted` message send to **source chain** OTC.
-3. - **`A` OTC:** `Offer Accepted` message received, **source token** transfered to **source buyer address**
-   - **`B` OTC:** `Cancel Offer Order` message received, offer removed from the mapping, `Offer Canceled` message sent back to **source chain** OTC market.
-4. `Offer Canceled` message received on `A` OTC market, the offer removed from the mapping, **source token** transferred to **source seller address**
-
-This highlights why the Cancel Offer process must implement an ABA-type cross-chain transaction.
+1. - **`A` OTC market:** Offer is canceled
+   - **`B` OTC market:** Offer is accepted 
+---
+2. - **`A` OTC market:** `CancelOfferOrder` cross-chain message is sent to **destination chain** OTC market.
+   - **`B` OTC market:** Offer is updated, **destination token** transferred from the **buyer** account to **destination seller address** and **treasury**. `OfferAccepted` cross-chain  message send to **source chain** OTC market.
+---
+3. - **`A` OTC market:** `Offer Accepted` message received, **source token** transferred to **source buyer address**
+   - **`B` OTC market:** `Cancel Offer Order` message received, offer deleted from the mapping, `Offer Canceled` cross-chain message sent back to **source chain** OTC market.
+---
+4. - **`A` OTC market:** `Offer Canceled` message received the offer deleted from the mapping, **source token** transferred to **source seller address**
 
 #### **Not enough gas for sending `Offer Canceled` message**
 
-The ABA-type transaction introduces another potential issue. The **seller** specifies the amount of gas available for executing the transaction on the **destination chain** by providing the **Extra Send Options** parameter when invoking `cancelOffer`. What happens if the **seller** specifies an insufficient amount of gas on the **destination chain**, not enough to process the `Cancel Offer Order` message on the **destination** OTC market?
+The ABA-type transaction introduces another potential issue. The **seller** specifies the amount of gas available for executing the transaction on the **destination chain** by providing the `extraSendOptions` parameter. What happens if the **seller** specifies an insufficient amount of gas to process the `Cancel Offer Order` message on the **destination** OTC market?
 
-The answer is straightforward — nothing critically wrong would occur. If there isn't enough gas to process the `Cancel Offer Order` and send the `Offer Canceled message` back to the **source chain** OTC market, the transaction would simply revert. As a result, the **offer** would not be removed from either the **source chain** or the **destination chain** OTC markets.
+The answer is straightforward — nothing critically wrong would occur. If there isn't enough gas to process the `Cancel Offer Order` and send the `Offer Canceled message` back to the **source chain** OTC market, the transaction would revert on **destination chian**. As a result, the **offer** would not be removed from either the **source chain** or the **destination chain** OTC markets.
