@@ -191,13 +191,13 @@ Now, let’s consider the same scenario but using the Cancel Offer implementatio
 2. - **`A` OTC market:** `CancelOfferOrder` cross-chain message is sent to **destination chain** OTC market.
    - **`B` OTC market:** Offer is updated, **destination token** transferred from the **buyer** account to **destination seller address** and **treasury**. `OfferAccepted` cross-chain  message send to **source chain** OTC market.
 ---
-3. - **`A` OTC market:** `Offer Accepted` message received, **source token** transferred to **source buyer address**
-   - **`B` OTC market:** `Cancel Offer Order` message received, offer deleted from the mapping, `Offer Canceled` cross-chain message sent back to **source chain** OTC market.
+3. - **`A` OTC market:** `OfferAccepted` message received, **source token** transferred to **source buyer address**
+   - **`B` OTC market:** `CancelOfferOrder` message received, offer deleted from the mapping, `OfferCanceled` cross-chain message sent back to **source chain** OTC market.
 ---
-4. - **`A` OTC market:** `Offer Canceled` message received the offer deleted from the mapping, **source token** transferred to **source seller address**
+4. - **`A` OTC market:** `OfferCanceled` message received the offer deleted from the mapping, **source token** transferred to **source seller address**
 
-#### **Not enough gas for sending `Offer Canceled` message**
+#### **Not enough gas for sending `OfferCanceled` message**
 
-The ABA-type transaction introduces another potential issue. The **seller** specifies the amount of gas available for executing the transaction on the **destination chain** by providing the `extraSendOptions` parameter. What happens if the **seller** specifies an insufficient amount of gas to process the `Cancel Offer Order` message on the **destination** OTC market?
+The ABA-type transaction introduces another potential issue. The **seller** specifies the amount of gas available for executing the transaction on the **destination chain** by providing the `extraSendOptions` parameter. What happens if the **seller** specifies an insufficient amount of gas to process the `CancelOfferOrder` message on the **destination** OTC market?
 
-The answer is straightforward — nothing critically wrong would occur. If there isn't enough gas to process the `Cancel Offer Order` and send the `Offer Canceled message` back to the **source chain** OTC market, the transaction would revert on **destination chian**. As a result, the **offer** would not be removed from either the **source chain** or the **destination chain** OTC markets.
+The answer is straightforward — nothing critically wrong would occur. If there isn't enough gas to process the `CancelOfferOrder` and send the `OfferCanceled` message back to the **source chain** OTC market, the transaction would revert on **destination chian**. As a result, the **offer** would not be removed from either the **source chain** or the **destination chain** OTC markets.
