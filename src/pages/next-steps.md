@@ -18,6 +18,10 @@ Advertisers will have an option to [cancel](/cancel-offer) the offer on **destin
 
 The [protocol fee](/protocol-fee) will reduce **to 0%** by participating in **governance** and **ecosystem growth**.
 
+## Native Drop
+
+Users will have an option to receive a small [native drop](https://docs.layerzero.network/v2/developers/evm/protocol-gas-settings/options#lznativedrop-option) on the **destination chain**, sufficient to cover approximately 3-4 transfers of destination tokens, for example.
+
 ## Offer Parameters
 
 An additional `extra` field of arbitrary bytes will be added to the [offer parameters](/offer#parameters) to store extra chain-specific info, such as Solana token program.
