@@ -76,7 +76,7 @@ export const global = {
               href: '/limitations',
             },
             {
-              title: 'Message Execution Options',
+              title: 'Message Options',
               href: '/options',
             },
           ],
