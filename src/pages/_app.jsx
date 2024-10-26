@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }) {
         <meta property="og:title" content={page.metaTitle} />
         <meta name="twitter:title" content={page.metaTitle} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="developers.metaplex.com" />
+        <meta property="twitter:domain" content="bakstag-developers.vercel.app" />
         <meta
           property="og:image"
           content="https://bakstag-developers.vercel.app//assets/social/dev-hub-preview.jpg"

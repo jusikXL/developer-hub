@@ -83,7 +83,7 @@ export const global = {
         },
         {
           title: 'Next steps',
-          links: [{ title: 'Next steps', href: '/next-steps' }],
+          links: [{ title: 'V2', href: '/next-steps' }],
         },
         {
           title: 'Community',

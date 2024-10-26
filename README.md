@@ -1,4 +1,4 @@
-# Metaplex Developer Hub
+# Bakstag Developer Hub
 
 ## Getting started
 

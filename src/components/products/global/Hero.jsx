@@ -1,6 +1,4 @@
 import { Hero as BaseHero } from '@/components/Hero'
-import CoreBanner from '@/images/core-banner.jpg'
-import Link from 'next/link'
 
 export function Hero({ page }) {
   return (
@@ -11,7 +9,6 @@ export function Hero({ page }) {
       light2Off
       light3Off
     >
-      
     </BaseHero>
   )
 }
