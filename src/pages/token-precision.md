@@ -154,7 +154,7 @@ pub fn remove_dust(amount_ld: u64, decimal_conversion_rate: u64) -> (u64, u64) {
 {% /dialect %}
 {% /dialect-switcher %}
 
-4. Store **source amount** and **exchange rate** in shared decimals. Lock cleaned source amount in local decimals in the [Escrow](/).
+4. Store **source amount** and **exchange rate** in shared decimals. Lock cleaned source amount in local decimals in the [Escrow](/create-offer#escrow).
 
 #### Accept offer
 

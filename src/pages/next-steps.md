@@ -16,7 +16,7 @@ Advertisers will have an option to [cancel](/cancel-offer) the offer on **destin
 
 ## Protocol Fee
 
-The [protocol fee](/protocol-fee) will reduce **to 0%** by participating in **governance** and **ecosystem growth**.
+The [protocol fee](/fee) will reduce **to 0%** by participating in **governance** and **ecosystem growth**.
 
 ## Native Drop
 

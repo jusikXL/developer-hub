@@ -24,7 +24,7 @@ The main parameters of the offer are:
   - **Source Token address:** The token being sold by the advertiser.  
   - **Destination Token address:** The token received by the advertiser.
 ### Pricing
-  - **Source Amount:** The total amount of the source token to sell. Locked in the [Escrow](/) when the offer is created.
+  - **Source Amount:** The total amount of the source token to sell. Locked in the [Escrow](/create-offer#escrow) when the offer is created.
   - **Exchange Rate:** The number of destination tokens paid by the buyer for each source token [dst/src].
 
 {% diagram %}
@@ -79,7 +79,7 @@ pub struct Offer {
 {% /dialect %}
 {% /dialect-switcher %}
 
-Addresses use `bytes32` for handling non-EVM chains. Source amount and exchange rate are represented in `uint64` and expressed in [shared decimals](/).
+Addresses use `bytes32` for handling non-EVM chains. Source amount and exchange rate are represented in `uint64` and expressed in [shared decimals](/token-precision#shared-decimal-system).
 
 ## ID
 
@@ -182,7 +182,7 @@ Once the entire amount in the offer has been purchased by buyers, the advertiser
 {% edge from="action" to="offer" path="straight" /%}
 {% /diagram %}
 
-In the next steps, advertisers will also have the option to **refill** the offer instead of canceling it entirely.
+[In the next steps](/next-steps), advertisers will also have the option to **refill** the offer instead of canceling it entirely.
 
 {% diagram %}
 {% node #action label="Refill" theme="purple" /%}
@@ -196,7 +196,7 @@ Overall, the lifecycle of an offer follows this path:
 
 {% figure src="/assets/bakstag/lifecycle.svg" alt="Offer lifecycle (Created, Accepted, Refilled, Canceled)" caption="Offer lifecycle" /%}
 
-We will discuss each of these actions in detail [in the features section](/bubblegum/concurrent-merkle-trees).
+We will discuss each of these actions in detail in the features section.
 
 ## Types
 
