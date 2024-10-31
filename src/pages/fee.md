@@ -7,7 +7,7 @@ description: Learn about protocol fee
 A protocol fee is applied to each accepted offer. This section outlines the details of how the fee is collected. {% .lead %}
 
 ## Protocol fee amount
-In the current version of the Bakstag OTC market, a **1%** fee is applied to the destination token amount and is collected when the offer is accepted. The **protocol fee** is paid from amount that **seller** would receive. In future updates, the fee may be reduced to **0%**; further details are available in the [Next Steps section](/nxext-steps#protocol-fee)
+In the current version of the Bakstag OTC market, a **1%** fee is applied to the **destination token amount** and is collected when the offer is accepted. The **protocol fee** is paid from amount that **seller** would receive. In future updates, the fee may be reduced to **0%**; further details are available in the [Next Steps section](/nxext-steps#protocol-fee)
 
 {% callout title="When fee is not collected" type="note" %} 
 The **protocol fee** is collected only when the offer is accepted. If **seller** decides to cancel the offer before it was accepted by anyone, no **fee** will be paid.

@@ -41,7 +41,7 @@ The **destination token** will be transferred from the **signer** of the transac
 
 The next step is to call `quote` that provides:
 
-- **LayerZero Messaging Fee** - the fee required by LayerZero.
+- **LayerZero Messaging Fee** - the fee required by `LayerZero`.
 - **Accept Offer Receipt** - includes protocol fee and the **destination token** amount.
   {% diagram %}
   {% node %}
@@ -106,8 +106,8 @@ In case of accepting **monochain** offer, the **destination** OTC market would b
 - **Validate Accept Offer:** Verify if the transaction is [valid](/accept-offer#3-validation-of-offer-accept-transaction)
 - **Update Offer source amount:** Update the **source token amount** available to accept for next buyers.
 - **Emit event:** Log `OfferAccepted` event notifying offchain workers.
-- **Transfer destination token:** Transfer **protocol fee** to **treasury** and remainings to **destination seller address**
-- **Transfer source token:** Transfer **protocol fee** to **treasury** and remaining amount to **destination seller address**
+- **Transfer destination token:** Transfer **protocol fee** to **treasury** and remaining amount to **destination seller address**
+- **Transfer source token:** Transfer **source token amount** to **source buyer address**
 
 #### **Accepting cross-chain offer**
 
@@ -120,11 +120,11 @@ While accepting the **cross-chain** offer, OTC market will:
 - **Transfer destination token:** Transfer **protocol fee** to **treasury** and remaining amount to **destination seller address**
 - **Send cross-chain message:** Build and send `OfferAccepted` message to the **source chain** OTC Market.
 
-After the **cross-chain message** is delivered, based on **source chain**, the **source chain** OTC market will:
+After the **cross-chain message** is delivered, the **source chain** OTC market will:
 
 - **Update Offer source amount:** Update the **source token amount** available to accept.
 - **Emit event:** Log `OfferAccepted` event notifying offchain workers.
-- **Transfer source tokens:** Transfer the proper source token amount to **source buyer address**
+- **Transfer source tokens:** Transfer the **source token amount** to **source buyer address**
 
 {% figure src="/assets/bakstag/accept-offer.svg" alt="Offer acceptance process" caption="Offer acceptance" /%}
 

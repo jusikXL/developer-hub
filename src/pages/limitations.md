@@ -7,16 +7,16 @@ description: Learn about protocol fee
 There are limitations on the minimum possible amount to accept an offer. In this section, we will explore the reasons behind these limitations. {% .lead %}
 
 ## Shared Decimals
-First of all, all **token amounts** are stored with the precision of **Shared Decimals** in the OTC market. In the current version of Bakstag Protocol, **Shared Decimals** is set to **6**. This means that the smallest amount that **buyer** is allowed to purchase is **1e-06** **source token**.
+All **token amounts** are stored with the precision of [Shared Decimals](/token-precision#shared-decimal-system) in the OTC market. In the current version of Bakstag Protocol, **Shared Decimals** value is set to **6**. This means that the smallest amount that **buyer** is allowed to purchase is **1e-06** **source token**.
 
 ## Protocol fee limitations
-As mentioned in the [Protocol Fee](/fee) section, a **protocol fee** is charged on every accepted offer. This means that the minimum **destination token amount** needs to be large enough to cover a **1% protocol fee**. The **destination token amount** is calculated based on the **exchange rate** set by the **seller**. Therefore, the minimum **destination token amount** depends on the [token's precision](/token-precision) and the **exchange rate**. 
+As mentioned in the [Protocol Fee](/fee) section, a **protocol fee** is charged on every accepted offer. This means that the minimum **destination token amount** needs to be large enough to cover a **1%** [protocol fee](/fee#protocol-fee-amount). The **destination token amount** is calculated based on the **exchange rate** set by the **seller**. Therefore, the minimum **destination token amount** depends on the [token's precision](/token-precision) and the **exchange rate**. 
 
 In the following tables, you may see, how different **exchange rates** affect the minimal **source token amount** that **buyer** can purchase for different tokens in role of **destination token**.
 
 
 ### ETH or ERC20 as **destination token**
-|**Exchange Rate** | minimum **source token amount** |
+|**Exchange Rate** | Minimum **source token amount** |
 |---|---|
 | 1e-06 | 1e-06 |
 | 1e-05 | 1e-06 |
@@ -53,7 +53,7 @@ In the following tables, you may see, how different **exchange rates** affect th
 
 **SOL**, **TON** and **JETTONs** generally have **9** decimals number, which imposes greater restrictions on smaller **exchange rates** due to the reduced level of precision.
 
-### SPL as **destination token**
+### SPL or TRX as **destination token**
 |**Exchange Rate** | Minimum **source token amount** |
 |---|---|
 | 1e-06  | 100 |
@@ -70,7 +70,7 @@ In the following tables, you may see, how different **exchange rates** affect th
 | 100000  | 1e-06 |
 | 1000000  | 1e-06 |
 
-Solana **SPL** tokens generally have **6** decimal number, resulting in even stricter limitations on the minimum **source token amount** for low exchange rates due to the reduced precision.
+**TRX** and Solana **SPL** tokens generally have **6** decimal number, resulting in even stricter limitations on the minimum **source token amount** for low exchange rates due to the reduced precision.
 
 
 
